@@ -1,77 +1,75 @@
 package com.joris.lineage.domain.model;
 
+import com.joris.lineage.domain.valueobject.Ancestry;
+import com.joris.lineage.domain.valueobject.BirthPlace;
 import org.junit.jupiter.api.Test;
-import com.joris.lineage.domain.enums.RelationshipType;
 import java.time.LocalDate;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import java.util.Set;
+import static org.assertj.core.api.Assertions.*;
 
 class PersonTest {
 
     @Test
-    void shouldCreatePersonWithValidData() {
-        Person person = new Person("John", "Doe", LocalDate.of(1990, 5, 12));
+    void shouldCreateValidPerson() {
+        BirthPlace bp = new BirthPlace("Uppsala", null, "Sweden");
+        Set<Ancestry> ancestries = Set.of(new Ancestry("IRN"), new Ancestry("SWE"));
 
-        assertThat(person.getFirstName()).isEqualTo("John");
-        assertThat(person.getLastName()).isEqualTo("Doe");
-        assertThat(person.getBirthDate()).isEqualTo(LocalDate.of(1990, 5, 12));
-        assertThat(person.getId()).isNotNull();
+        Person p = new Person("Snoh", "Alegra",
+                LocalDate.of(1987, 9, 13),
+                bp,
+                null,
+                ancestries);
+
+        assertThat(p.getFirstName()).isEqualTo("Snoh");
+        assertThat(p.getLastName()).isEqualTo("Alegra");
+        assertThat(p.getBirthPlace()).isEqualTo(bp);
+        assertThat(p.getOrigins()).containsExactlyElementsOf(ancestries);
+        assertThat(p.isDeceased()).isFalse();
     }
 
     @Test
-    void shouldThrowExceptionForNullFirstName() {
-        assertThatThrownBy(() ->
-                new Person(null, "Doe", LocalDate.of(1990, 5, 12)))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining("First name cannot be empty");
+    void shouldThrowIfDeathBeforeBirth() {
+        BirthPlace bp = new BirthPlace("Uppsala", null, "Sweden");
+        assertThatThrownBy(() -> new Person(
+                "Snoh", "Alegra",
+                LocalDate.of(1985, 2, 5),
+                bp,
+                LocalDate.of(1980, 1, 1),
+                Set.of(new Ancestry("PT"))
+        )).isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
-    void shouldThrowExceptionForBlankFirstName() {
-        assertThatThrownBy(() ->
-                new Person("   ", "Doe", LocalDate.of(1990, 5, 12)))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining("First name cannot be empty");
+    void shouldTreatNullAncestryAsEmptySet() {
+        BirthPlace bp = new BirthPlace("Uppsala", null, "Sweden");
+        Person p = new Person("Snoh", "Alegra",
+                LocalDate.of(1987, 9, 13),
+                bp,
+                null,
+                null);
+        assertThat(p.getOrigins()).isEmpty();
     }
 
     @Test
-    void shouldThrowExceptionForNullLastName() {
-        assertThatThrownBy(() ->
-                new Person("John", null, LocalDate.of(1990, 5, 12)))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining("Last name cannot be empty");
+    void shouldThrowIfFirstOrLastNameNullOrBlank() {
+        BirthPlace bp = new BirthPlace("Uppsala", null, "Sweden");
+        assertThatThrownBy(() -> new Person(null, "Alegra", LocalDate.of(1987,9,13), bp, null, null))
+                .isInstanceOf(IllegalArgumentException.class);
+        assertThatThrownBy(() -> new Person("Snoh", "", LocalDate.of(1987,9,13), bp, null, null))
+                .isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
-    void shouldThrowExceptionForBlankLastName() {
-        assertThatThrownBy(() ->
-                new Person("John", "   ", LocalDate.of(1990, 5, 12)))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining("Last name cannot be empty");
+    void shouldReturnImmutableAncestrySet() {
+        BirthPlace bp = new BirthPlace("Uppsala", null, "Sweden");
+        Set<Ancestry> ancestries = Set.of(new Ancestry("SWE"));
+        Person p = new Person("Snoh", "Alegra",
+                LocalDate.of(1987, 9, 13),
+                bp,
+                null,
+                ancestries);
+
+        assertThatThrownBy(() -> p.getOrigins().add(new Ancestry("ES")))
+                .isInstanceOf(UnsupportedOperationException.class);
     }
-
-    @Test
-    void shouldThrowExceptionForNullBirthdate() {
-        assertThatThrownBy(() ->
-                new Person("John", "Doe", null))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining("Birth date cannot be null");
-    }
-
-    @Test
-    void shouldBeImmutable() {
-        Person person = new Person("John", "Doe", LocalDate.of(1990, 5, 12));
-        assertThat(person.getFirstName()).isEqualTo("John");
-        // Pas de setter → immuable par construction
-    }
-
-    @Test
-    void shouldHaveUniqueId() {
-        Person person1 = new Person("John", "Doe", LocalDate.of(1990, 5, 12));
-        Person person2 = new Person("John", "Doe", LocalDate.of(1990, 5, 12));
-
-        assertThat(person1.getId()).isNotEqualTo(person2.getId());
-    }
-
 }

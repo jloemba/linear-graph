@@ -1,20 +1,29 @@
 package com.joris.lineage.domain.model;
 
+import com.joris.lineage.domain.valueobject.Ancestry;
+import com.joris.lineage.domain.valueobject.BirthPlace;
 import com.joris.lineage.domain.enums.RelationshipType;
 import com.joris.lineage.domain.exception.InvalidRelationshipException;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
+import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class FamilyTreeTest {
 
+    private Person createPerson(String firstName, String lastName, LocalDate birthDate, String countryCode) {
+        BirthPlace bp = new BirthPlace("City", "Region", countryCode);
+        Set<Ancestry> ancestries = Set.of(new Ancestry(countryCode));
+        return new Person(firstName, lastName, birthDate, bp, null, ancestries);
+    }
+
     @Test
     void shouldAddPersonToTree() {
         FamilyTree tree = new FamilyTree("Doe Family");
-        Person john = new Person("John", "Doe", LocalDate.of(1970, 1, 1));
+        Person john = createPerson("John", "Doe", LocalDate.of(1970, 1, 1), "FR");
 
         tree.addPerson(john);
 
@@ -24,8 +33,8 @@ class FamilyTreeTest {
     @Test
     void shouldAddRelationship() {
         FamilyTree tree = new FamilyTree("Doe Family");
-        Person parent = new Person("John", "Doe", LocalDate.of(1970, 1, 1));
-        Person child = new Person("Mike", "Doe", LocalDate.of(2000, 1, 1));
+        Person parent = createPerson("John", "Doe", LocalDate.of(1970, 1, 1), "FR");
+        Person child = createPerson("Mike", "Doe", LocalDate.of(2000, 1, 1), "FR");
         tree.addPerson(parent);
         tree.addPerson(child);
 
@@ -38,7 +47,7 @@ class FamilyTreeTest {
     @Test
     void shouldNotAllowDuplicatePerson() {
         FamilyTree tree = new FamilyTree("Doe Family");
-        Person john = new Person("John", "Doe", LocalDate.of(1970, 1, 1));
+        Person john = createPerson("John", "Doe", LocalDate.of(1970, 1, 1), "FR");
         tree.addPerson(john);
 
         assertThatThrownBy(() -> tree.addPerson(john))
@@ -49,8 +58,8 @@ class FamilyTreeTest {
     @Test
     void shouldNotAllowRelationshipWithNonMember() {
         FamilyTree tree = new FamilyTree("Doe Family");
-        Person john = new Person("John", "Doe", LocalDate.of(1970, 1, 1));
-        Person mike = new Person("Mike", "Doe", LocalDate.of(2000, 1, 1));
+        Person john = createPerson("John", "Doe", LocalDate.of(1970, 1, 1), "FR");
+        Person mike = createPerson("Mike", "Doe", LocalDate.of(2000, 1, 1), "FR");
 
         tree.addPerson(john);
 
@@ -64,11 +73,10 @@ class FamilyTreeTest {
     @Test
     void shouldReturnUnmodifiableCollections() {
         FamilyTree tree = new FamilyTree("Doe Family");
-        Person john = new Person("John", "Doe", LocalDate.of(1970, 1, 1));
+        Person john = createPerson("John", "Doe", LocalDate.of(1970, 1, 1), "FR");
         tree.addPerson(john);
 
         assertThatThrownBy(() -> tree.getMembers().add(john))
                 .isInstanceOf(UnsupportedOperationException.class);
     }
-
 }
