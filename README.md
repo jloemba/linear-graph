@@ -1,31 +1,63 @@
-﻿# Lineage
+﻿# GraphEngine Project
 
-**Lineage** is a **Spring Boot** project designed to model **family trees** and their relationships.  
-It is built following **TDD (Test-Driven Development)** principles and serves as a **portfolio project demonstrating architecture, domain modeling, and code quality**.
+## Overview
 
-## Features
+**GraphEngine** is a generic graph modeling engine built with **Spring Boot**.  
+It allows modeling and visualizing structured data as a **graph** composed of nodes and relationships.  
 
-- Create **persons** with first name, last name, and birthdate
-- Define **relationships** between persons:
-  - Parent → Child
-  - Married
-  - Adopted
-- Manage a **FamilyTree** containing members and their relationships
-- **Business rule validations**:
-  - A parent cannot be younger than their child
-  - A person cannot be their own parent
-  - Relationships must be between members of the tree
-- Unit tests covering all domain logic, ensuring **TDD compliance**
+Initially designed for genealogical trees, it has been refactored to support **any domain** where entities and their connections can be represented as a graph.
 
 ---
 
-## Technology Stack
+## Core Concepts
 
-- **Java 21**  
-- **Spring Boot 3.5.11**  
-- **Maven** for dependency management  
-- **Spring Boot Starter Test** (JUnit 5, AssertJ, Mockito) for unit tests  
-- **Lombok** to reduce boilerplate code  
-- **GitHub Actions** for **CI/CD** to automatically run builds and tests
+### Node
+
+- Represents an **entity** in the graph.  
+- Can have multiple **properties** (string, date, references, etc.).  
+- Immutable once created.
+
+### Relationship
+
+- Connects two nodes with a **type** (e.g., `parent_of`, `married_to`, or any custom type).  
+- Immutable and ensures nodes exist in the graph.  
+- Prevents self-references.  
+
+### Property & PropertyValue
+
+- `Property` stores a **key** and a `PropertyValue`.  
+- `PropertyValue` is a **sealed type** that can be:
+  - `StringValue`
+  - `DateValue`
+  - `ReferenceValue` (links to another node)  
 
 ---
+
+## Aggregate
+
+`GraphAggregate` is the **root of the graph**:
+
+- Manages all nodes and relationships.
+- Ensures **consistency and invariants**:
+  - Relationships can only exist between nodes in the graph.
+  - Removing a node deletes all its relationships.
+- Encapsulates all mutations (add/remove nodes or relationships).
+
+---
+
+## Example Usage
+
+```java
+GraphAggregate graph = new GraphAggregate("Family Graph");
+
+Node john = new Node("John");
+Node mike = new Node("Mike");
+
+graph.addNode(john);
+graph.addNode(mike);
+
+Relationship parentChild = new Relationship(john, mike, "parent_of");
+graph.addRelationship(parentChild);
+
+Property birthPlace = new Property("birthPlace", new StringValue("Lisbon, Portugal"));
+john.addProperty(birthPlace);
