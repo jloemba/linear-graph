@@ -1,7 +1,6 @@
 package com.lineage.domain.valueobject;
 
 import java.util.Objects;
-import com.lineage.domain.valueobject.PropertyValue;
 
 public final class StringValue implements PropertyValue {
 
@@ -19,8 +18,10 @@ public final class StringValue implements PropertyValue {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof StringValue)) return false;
+        if (this == o)
+            return true;
+        if (!(o instanceof StringValue))
+            return false;
         StringValue that = (StringValue) o;
         return value.equals(that.value);
     }
@@ -28,5 +29,10 @@ public final class StringValue implements PropertyValue {
     @Override
     public int hashCode() {
         return Objects.hash(value);
+    }
+
+    @Override
+    public String toString() {
+        return "Property{value='" + value + '\'' + '}';
     }
 }

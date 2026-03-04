@@ -1,12 +1,10 @@
-package com.joris.graphengine.domain.valueobject;
-
-import com.lineage.domain.valueobject.DateValue;
-
-import org.junit.jupiter.api.Test;
+package com.lineage.domain.valueobject;
 
 import java.time.LocalDate;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import org.junit.jupiter.api.Test;
 
 class DateValueTest {
 

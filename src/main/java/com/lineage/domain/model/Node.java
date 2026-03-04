@@ -1,6 +1,7 @@
 package com.lineage.domain.model;
 
 import com.lineage.domain.model.Property;
+import com.lineage.domain.valueobject.NodeType;
 import java.util.*;
 
 public final class Node {
@@ -8,8 +9,10 @@ public final class Node {
     private final UUID id;
     private final String label;
     private final Map<String, Property> properties;
+    private final NodeType type;
 
-    public Node(String label, Set<Property> properties) {
+
+    public Node(String label, Set<Property> properties,NodeType type) {
 
         if (label == null || label.isBlank()) {
             throw new IllegalArgumentException("Node label cannot be empty");
@@ -18,6 +21,8 @@ public final class Node {
         this.id = UUID.randomUUID();
         this.label = label;
         this.properties = new HashMap<>();
+        this.type = type;
+
 
         if (properties != null) {
             for (Property property : properties) {
@@ -61,6 +66,10 @@ public final class Node {
 
     public void removeProperty(String name) {
         properties.remove(name);
+    }
+
+    public NodeType getType() {
+        return type;
     }
 
     @Override

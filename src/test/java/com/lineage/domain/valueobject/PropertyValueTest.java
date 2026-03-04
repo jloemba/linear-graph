@@ -1,4 +1,4 @@
-package com.joris.lineage.domain.valueobject;
+package com.lineage.domain.valueobject;
 
 import com.lineage.domain.valueobject.PropertyValue;
 import com.lineage.domain.valueobject.DateValue;

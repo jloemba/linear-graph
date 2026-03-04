@@ -2,6 +2,7 @@ package com.lineage.domain.model;
 
 import com.lineage.domain.model.Node;
 import com.lineage.domain.model.Relationship;
+import com.lineage.domain.valueobject.NodeType;
 
 import java.util.*;
 
@@ -9,9 +10,10 @@ public final class GraphAggregate {
 
     private final UUID id;
     private final String name;
-
+    //private final GraphType type; // FAMILY_TREE, GEOPOLITICAL, ETHNIC...
     private final Map<UUID, Node> nodes = new HashMap<>();
     private final Set<Relationship> relationships = new HashSet<>();
+    // TODO : mettre les graph policy ici 
 
     public GraphAggregate(String name) {
 
@@ -38,10 +40,6 @@ public final class GraphAggregate {
     public Set<Relationship> getRelationships() {
         return Collections.unmodifiableSet(relationships);
     }
-
-    // ========================
-    // Node management
-    // ========================
 
     public void addNode(Node node) {
         Objects.requireNonNull(node, "Node cannot be null");
@@ -73,12 +71,8 @@ public final class GraphAggregate {
         nodes.remove(nodeId);
     }
 
-    // ========================
-    // Relationship management
-    // ========================
-
     public void addRelationship(Relationship relationship) {
-        Objects.requireNonNull(relationship, "Relationship cannot be null");
+        Objects.requireNonNull(relationship, "Relationship cannot be null"); //To simplifies the code and removes the need for multiple null checks
 
         UUID fromId = relationship.getFrom().getId();
         UUID toId = relationship.getTo().getId();
@@ -107,4 +101,10 @@ public final class GraphAggregate {
 
         relationships.remove(relationship);
     }
+
+    public List<Node> findNodesByType(NodeType type) {
+    return nodes.values().stream()
+            .filter(node -> node.getType().equals(type))
+            .toList();
+}
 }

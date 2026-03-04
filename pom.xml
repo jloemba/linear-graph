@@ -12,7 +12,7 @@
 		<relativePath />
 	</parent>
 
-	<groupId>com.joris</groupId>
+	<groupId>com.lineage</groupId>
 	<artifactId>lineage</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>lineage</name>

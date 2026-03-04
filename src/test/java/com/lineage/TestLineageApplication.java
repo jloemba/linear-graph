@@ -1,4 +1,4 @@
-package com.joris.lineage;
+package com.lineage;
 
 import org.springframework.boot.SpringApplication;
 
