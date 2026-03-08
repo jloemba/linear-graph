@@ -1,15 +1,14 @@
 package com.lineage.domain.model;
 
-import com.lineage.domain.valueobject.NodeType;
-import com.lineage.domain.model.Node;
-import com.lineage.domain.model.Relationship;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.Assertions.*;
+import com.lineage.domain.valueobject.NodeType;
 
-class RelationshipTest {
+class RelationShipTest {
 
     private static final NodeType PERSON  = NodeType.of("PERSON");
     private static final NodeType KINGDOM = NodeType.of("KINGDOM");
