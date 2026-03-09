@@ -44,5 +44,6 @@ build/
 *.log
 *.log.*
 
+lineage.db
 
 note.txt
