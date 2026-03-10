@@ -8,6 +8,9 @@ import com.lineage.domain.model.Relationship;
 
 import java.util.*;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class FindAncestorsService implements FindAncestorsUseCase {
 
     private final GraphRepository graphRepository;

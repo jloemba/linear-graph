@@ -17,9 +17,6 @@ public class GraphEntity {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "type", nullable = false)
-    private String type;
-
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
@@ -34,17 +31,15 @@ public class GraphEntity {
 
     protected GraphEntity() {}
 
-    public GraphEntity(UUID id, String name, String type) {
+    public GraphEntity(UUID id, String name) {
         this.id        = id;
         this.name      = name;
-        this.type      = type;
         this.createdAt = LocalDateTime.now();
         this.updatedAt = LocalDateTime.now();
     }
 
     public UUID getId()                                { return id; }
     public String getName()                            { return name; }
-    public String getType()                            { return type; }
     public LocalDateTime getCreatedAt()                { return createdAt; }
     public LocalDateTime getUpdatedAt()                { return updatedAt; }
     public List<NodeEntity> getNodes()                 { return nodes; }

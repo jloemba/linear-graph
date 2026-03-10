@@ -6,7 +6,9 @@ import com.lineage.domain.model.GraphAggregate;
 
 import java.util.Objects;
 import java.util.UUID;
+import org.springframework.stereotype.Component;
 
+@Component
 public class CreateGraphService implements CreateGraphUseCase {
 
     private final GraphRepository graphRepository;

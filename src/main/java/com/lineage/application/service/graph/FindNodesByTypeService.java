@@ -9,6 +9,9 @@ import com.lineage.domain.valueobject.NodeType;
 import java.util.List;
 import java.util.Objects;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class FindNodesByTypeService implements FindNodesByTypeUseCase {
 
     private final GraphRepository graphRepository;

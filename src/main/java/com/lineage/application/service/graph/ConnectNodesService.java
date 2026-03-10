@@ -9,6 +9,9 @@ import com.lineage.domain.valueobject.DateValue;
 
 import java.util.Objects;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class ConnectNodesService implements ConnectNodesUseCase {
 
     private final GraphRepository graphRepository;

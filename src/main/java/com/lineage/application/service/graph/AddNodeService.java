@@ -8,6 +8,9 @@ import com.lineage.domain.valueobject.NodeType;
 
 import java.util.Objects;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class AddNodeService implements AddNodeUseCase {
 
     private final GraphRepository graphRepository;
