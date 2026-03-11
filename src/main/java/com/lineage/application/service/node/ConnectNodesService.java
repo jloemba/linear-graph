@@ -1,4 +1,4 @@
-package com.lineage.application.service.graph;
+package com.lineage.application.service.node;
 
 import com.lineage.application.port.in.graph.ConnectNodesUseCase;
 import com.lineage.application.port.out.GraphRepository;

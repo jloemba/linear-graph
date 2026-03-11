@@ -1,14 +1,16 @@
 package com.lineage.application.port.in.graph;
+import com.lineage.domain.model.Property;
 
-import java.util.UUID;
+import java.util.*;
 
 public interface AddNodeUseCase {
 
     NodeId execute(AddNodeCommand command);
 
     record AddNodeCommand(
-        UUID graphId,
+        UUID nodeId,
         String label,
+        Set<Property> properties,
         String type
     ) {}
 

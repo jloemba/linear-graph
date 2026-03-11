@@ -42,12 +42,12 @@ class FindAncestorsServiceTest {
     void setUp() {
         service = new FindAncestorsService(graphRepository);
         graphId = UUID.randomUUID();
-        graph = new GraphAggregate("Arbre Généalogique");
+        graph = new GraphAggregate(graphId,"Arbre Généalogique");
 
-        grandParent = new Node("Grand-père", null, NodeType.of("PERSON"));
-        parent = new Node("Père", null, NodeType.of("PERSON"));
-        child = new Node("Enfant", null, NodeType.of("PERSON"));
-        grandChild = new Node("Petit-fils", null, NodeType.of("PERSON"));
+        grandParent = new Node(UUID.randomUUID(), "Grand-père", null, NodeType.of("PERSON"));
+        parent = new Node(UUID.randomUUID(), "Père", null, NodeType.of("PERSON"));
+        child = new Node(UUID.randomUUID(), "Enfant", null, NodeType.of("PERSON"));
+        grandChild = new Node(UUID.randomUUID(), "Petit-fils", null, NodeType.of("PERSON"));
 
         graph.addNode(grandParent);
         graph.addNode(parent);

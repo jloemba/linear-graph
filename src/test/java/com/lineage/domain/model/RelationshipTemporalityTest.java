@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -22,9 +23,9 @@ class RelationshipTemporalityTest {
 
     @BeforeEach
     void setUp() {
-        gospel = new Node("Gospel", null, GENRE);
-        blues = new Node("Urban Blues", null, GENRE);
-        rock = new Node("Rock'n'Roll", null, GENRE);
+        gospel = new Node(UUID.randomUUID(), "Gospel", null, GENRE);
+        blues = new Node(UUID.randomUUID(), "Urban Blues", null, GENRE);
+        rock = new Node(UUID.randomUUID(), "Rock'n'Roll", null, GENRE);
     }
 
     @Test

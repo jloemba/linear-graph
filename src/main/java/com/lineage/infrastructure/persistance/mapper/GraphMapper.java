@@ -31,11 +31,27 @@ public class GraphMapper {
 
     public GraphAggregate toDomain(GraphEntity entity) {
         GraphAggregate graph = new GraphAggregate(
+                entity.getId(),
                 entity.getName());
 
         entity.getNodes().forEach(nodeEntity -> graph.addNode(toDomainNode(nodeEntity)));
 
-        entity.getRelationships().forEach(relEntity -> graph.addRelationship(toDomainRelationship(relEntity)));
+        entity.getRelationships().forEach(relEntity -> {
+            Node from = graph.getNode(UUID.fromString(relEntity.getFrom().getId().toString()))
+                    .orElseThrow(() -> new IllegalArgumentException("Node not found : " + relEntity.getFrom().getId()));
+            Node to = graph.getNode(UUID.fromString(relEntity.getTo().getId().toString()))
+                    .orElseThrow(() -> new IllegalArgumentException("Node not found : " + relEntity.getTo().getId()));
+
+            DateValue startDate = relEntity.getStartDate() != null
+                    ? new DateValue(relEntity.getStartDate())
+                    : null;
+
+            DateValue endDate = relEntity.getEndDate() != null
+                    ? new DateValue(relEntity.getEndDate())
+                    : null;
+
+            graph.addRelationship(new Relationship(from, to, relEntity.getType(), startDate, endDate));
+        });
 
         return graph;
     }
@@ -54,6 +70,7 @@ public class GraphMapper {
 
     public Node toDomainNode(NodeEntity entity) {
         Node node = new Node(
+                entity.getId(),
                 entity.getLabel(),
                 null,
                 NodeType.of(entity.getType()));

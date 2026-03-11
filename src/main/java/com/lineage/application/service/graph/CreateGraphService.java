@@ -20,8 +20,8 @@ public class CreateGraphService implements CreateGraphUseCase {
     @Override
     public GraphId execute(CreateGraphCommand command) {
         Objects.requireNonNull(command, "Command cannot be null");
-
-        GraphAggregate graph = new GraphAggregate(command.name());
+        UUID graphId = UUID.randomUUID();
+        GraphAggregate graph = new GraphAggregate(graphId, command.name());
 
         graphRepository.save(graph);
 

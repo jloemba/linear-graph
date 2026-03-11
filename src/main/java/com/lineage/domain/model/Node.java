@@ -12,13 +12,13 @@ public final class Node {
     private final NodeType type;
 
 
-    public Node(String label, Set<Property> properties,NodeType type) {
+    public Node(UUID id, String label, Set<Property> properties,NodeType type) {
 
         if (label == null || label.isBlank()) {
             throw new IllegalArgumentException("Node label cannot be empty");
         }
 
-        this.id = UUID.randomUUID();
+        this.id = id;
         this.label = label;
         this.properties = new HashMap<>();
         this.type = type;

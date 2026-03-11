@@ -45,13 +45,13 @@ class TracePathServiceTest {
     void setUp() {
         service  = new TracePathService(graphRepository);
         graphId  = UUID.randomUUID();
-        graph    = new GraphAggregate("Famille du Rock");
+        graph    = new GraphAggregate(graphId,"Famille du Rock");
 
-        gospel       = new Node("Gospel",          null, NodeType.of("GENRE"));
-        rhythmNBlues = new Node("Rhythm'n'Blues",  null, NodeType.of("GENRE"));
-        rockNRoll    = new Node("Rock'n'Roll",      null, NodeType.of("GENRE"));
-        hardRock     = new Node("Hard Rock",        null, NodeType.of("GENRE"));
-        heavyMetal   = new Node("Heavy Metal",      null, NodeType.of("GENRE"));
+        gospel       = new Node(UUID.randomUUID(), "Gospel",          null, NodeType.of("GENRE"));
+        rhythmNBlues = new Node(UUID.randomUUID(), "Rhythm'n'Blues",  null, NodeType.of("GENRE"));
+        rockNRoll    = new Node(UUID.randomUUID(), "Rock'n'Roll",      null, NodeType.of("GENRE"));
+        hardRock     = new Node(UUID.randomUUID(), "Hard Rock",        null, NodeType.of("GENRE"));
+        heavyMetal   = new Node(UUID.randomUUID(), "Heavy Metal",      null, NodeType.of("GENRE"));
 
         graph.addNode(gospel);
         graph.addNode(rhythmNBlues);

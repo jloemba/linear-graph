@@ -2,6 +2,9 @@ package com.lineage.domain.model;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
+import java.util.UUID;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -10,7 +13,7 @@ import com.lineage.domain.valueobject.NodeType;
 
 class RelationShipTest {
 
-    private static final NodeType PERSON  = NodeType.of("PERSON");
+    private static final NodeType PERSON = NodeType.of("PERSON");
     private static final NodeType KINGDOM = NodeType.of("KINGDOM");
 
     private Node alice;
@@ -18,8 +21,8 @@ class RelationShipTest {
 
     @BeforeEach
     void setUp() {
-        alice = new Node("Alice", null, PERSON);
-        bob   = new Node("Bob",   null, PERSON);
+        alice = new Node(UUID.randomUUID(), "Alice", null, PERSON);
+        bob = new Node(UUID.randomUUID(), "Bob", null, PERSON);
     }
 
     // -------------------------
@@ -41,33 +44,33 @@ class RelationShipTest {
         @Test
         void shouldThrowIfFromIsNull() {
             assertThatThrownBy(() -> new Relationship(null, bob, "PARENT_OF"))
-                .isInstanceOf(NullPointerException.class);
+                    .isInstanceOf(NullPointerException.class);
         }
 
         @Test
         void shouldThrowIfToIsNull() {
             assertThatThrownBy(() -> new Relationship(alice, null, "PARENT_OF"))
-                .isInstanceOf(NullPointerException.class);
+                    .isInstanceOf(NullPointerException.class);
         }
 
         @Test
         void shouldThrowIfTypeIsBlank() {
             assertThatThrownBy(() -> new Relationship(alice, bob, " "))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining("Relationship type cannot be empty");
+                    .isInstanceOf(IllegalArgumentException.class)
+                    .hasMessageContaining("Relationship type cannot be empty");
         }
 
         @Test
         void shouldThrowIfTypeIsNull() {
             assertThatThrownBy(() -> new Relationship(alice, bob, null))
-                .isInstanceOf(IllegalArgumentException.class);
+                    .isInstanceOf(IllegalArgumentException.class);
         }
 
         @Test
         void shouldThrowIfFromAndToAreTheSameNode() {
             assertThatThrownBy(() -> new Relationship(alice, alice, "PARENT_OF"))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining("A node cannot relate to itself");
+                    .isInstanceOf(IllegalArgumentException.class)
+                    .hasMessageContaining("A node cannot relate to itself");
         }
 
         @Test
@@ -80,7 +83,7 @@ class RelationShipTest {
 
         @Test
         void shouldAllowDifferentTypeBetweenSameNodes() {
-            Relationship parent  = new Relationship(alice, bob, "PARENT_OF");
+            Relationship parent = new Relationship(alice, bob, "PARENT_OF");
             Relationship married = new Relationship(alice, bob, "MARRIED_TO");
 
             assertThat(parent).isNotEqualTo(married);
@@ -88,7 +91,7 @@ class RelationShipTest {
 
         @Test
         void shouldAllowRelationshipBetweenDifferentNodeTypes() {
-            Node kingdom = new Node("Royaume Kongo", null, KINGDOM);
+            Node kingdom = new Node(UUID.randomUUID(), "Royaume Kongo", null, KINGDOM);
             Relationship rel = new Relationship(alice, kingdom, "ORIGINATED_FROM");
 
             assertThat(rel.getFrom()).isEqualTo(alice);
@@ -120,9 +123,9 @@ class RelationShipTest {
 
         @Test
         void shouldNotBeEqualWhenFromIsDifferent() {
-            Node charlie = new Node("Charlie", null, PERSON);
+            Node charlie = new Node(UUID.randomUUID(), "Charlie", null, PERSON);
 
-            Relationship rel1 = new Relationship(alice,   bob, "PARENT_OF");
+            Relationship rel1 = new Relationship(alice, bob, "PARENT_OF");
             Relationship rel2 = new Relationship(charlie, bob, "PARENT_OF");
 
             assertThat(rel1).isNotEqualTo(rel2);
@@ -130,9 +133,9 @@ class RelationShipTest {
 
         @Test
         void shouldNotBeEqualWhenToIsDifferent() {
-            Node charlie = new Node("Charlie", null, PERSON);
+            Node charlie = new Node(UUID.randomUUID(), "Charlie", null, PERSON);
 
-            Relationship rel1 = new Relationship(alice, bob,     "PARENT_OF");
+            Relationship rel1 = new Relationship(alice, bob, "PARENT_OF");
             Relationship rel2 = new Relationship(alice, charlie, "PARENT_OF");
 
             assertThat(rel1).isNotEqualTo(rel2);
@@ -166,9 +169,9 @@ class RelationShipTest {
             String str = rel.toString();
 
             assertThat(str)
-                .contains(alice.getId().toString())
-                .contains(bob.getId().toString())
-                .contains("PARENT_OF");
+                    .contains(alice.getId().toString())
+                    .contains(bob.getId().toString())
+                    .contains("PARENT_OF");
         }
     }
 }

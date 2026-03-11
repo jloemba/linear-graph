@@ -4,7 +4,7 @@ import com.lineage.application.port.in.graph.ConnectNodesUseCase;
 import com.lineage.application.port.in.graph.ConnectNodesUseCase.ConnectNodesCommand;
 import com.lineage.application.port.in.graph.ConnectNodesUseCase.RelationshipId;
 import com.lineage.application.port.out.GraphRepository;
-import com.lineage.application.service.graph.ConnectNodesService;
+import com.lineage.application.service.node.ConnectNodesService;
 import com.lineage.domain.model.GraphAggregate;
 import com.lineage.domain.model.Node;
 import com.lineage.domain.valueobject.NodeType;
@@ -20,6 +20,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -39,10 +40,11 @@ class ConnectNodesServiceTest {
     void setUp() {
         service = new ConnectNodesService(graphRepository);
         graphId = UUID.randomUUID();
-        existingGraph = new GraphAggregate("Famille du Rock");
+        existingGraph = new GraphAggregate(graphId,"Famille du Rock");
 
-        gospel = new Node("Gospel", null, NodeType.of("GENRE"));
-        blues = new Node("Urban Blues", null, NodeType.of("GENRE"));
+        
+        gospel = new Node(UUID.randomUUID(), "Gospel", null, NodeType.of("GENRE"));
+        blues = new Node(UUID.randomUUID(), "Urban Blues", null, NodeType.of("GENRE"));
 
         existingGraph.addNode(gospel);
         existingGraph.addNode(blues);
@@ -127,7 +129,7 @@ class ConnectNodesServiceTest {
     void shouldReturnDifferentIdForEachRelationship() {
         when(graphRepository.findById(graphId)).thenReturn(Optional.of(existingGraph));
 
-        Node rock = new Node("Rock'n'Roll", null, NodeType.of("GENRE"));
+        Node rock = new Node(UUID.randomUUID(), "Rock'n'Roll", null, NodeType.of("GENRE"));
         existingGraph.addNode(rock);
 
         RelationshipId id1 = service.execute(new ConnectNodesCommand(

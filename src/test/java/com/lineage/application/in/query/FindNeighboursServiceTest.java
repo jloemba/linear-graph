@@ -42,12 +42,12 @@ class FindNeighboursServiceTest {
     void setUp() {
         service = new FindNeighboursService(graphRepository);
         graphId = UUID.randomUUID();
-        graph = new GraphAggregate("Famille du Rock");
+        graph = new GraphAggregate(graphId,"Famille du Rock");
 
-        gospel = new Node("Gospel", null, NodeType.of("GENRE"));
-        rhythmNBlues = new Node("Rhythm'n'Blues", null, NodeType.of("GENRE"));
-        rockNRoll = new Node("Rock'n'Roll", null, NodeType.of("GENRE"));
-        muddy = new Node("Muddy Waters", null, NodeType.of("ARTIST"));
+        gospel = new Node(UUID.randomUUID(), "Gospel", null, NodeType.of("GENRE"));
+        rhythmNBlues = new Node(UUID.randomUUID(), "Rhythm'n'Blues", null, NodeType.of("GENRE"));
+        rockNRoll = new Node(UUID.randomUUID(), "Rock'n'Roll", null, NodeType.of("GENRE"));
+        muddy = new Node(UUID.randomUUID(), "Muddy Waters", null, NodeType.of("ARTIST"));
 
         graph.addNode(gospel);
         graph.addNode(rhythmNBlues);
@@ -126,7 +126,7 @@ class FindNeighboursServiceTest {
         // muddy n'a aucun voisin entrant — il n'a qu'une relation sortante vers gospel
         // donc rhythmNBlues n'a que gospel comme voisin entrant et aucun sortant
         // utilisons un node isolé
-        Node isolatedNode = new Node("Isolated", null, NodeType.of("GENRE"));
+        Node isolatedNode = new Node(UUID.randomUUID(), "Isolated", null, NodeType.of("GENRE"));
         graph.addNode(isolatedNode);
 
         Query query = new Query(graphId, isolatedNode.getId());

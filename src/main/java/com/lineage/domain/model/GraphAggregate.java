@@ -15,13 +15,13 @@ public final class GraphAggregate {
     private final Set<Relationship> relationships = new HashSet<>();
     // TODO : mettre les graph policy ici 
 
-    public GraphAggregate(String name) {
+    public GraphAggregate(UUID id, String name) {
 
         if (name == null || name.isBlank()) {
             throw new IllegalArgumentException("Graph name cannot be empty");
         }
 
-        this.id = UUID.randomUUID();
+        this.id = id;
         this.name = name;
     }
 

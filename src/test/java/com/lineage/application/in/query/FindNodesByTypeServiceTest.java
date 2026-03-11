@@ -41,12 +41,12 @@ class FindNodesByTypeServiceTest {
     void setUp() {
         service = new FindNodesByTypeService(graphRepository);
         graphId = UUID.randomUUID();
-        graph = new GraphAggregate("Famille du Rock");
+        graph = new GraphAggregate(graphId,"Famille du Rock");
 
-        gospel = new Node("Gospel", null, NodeType.of("GENRE"));
-        blues = new Node("Urban Blues", null, NodeType.of("GENRE"));
-        muddy = new Node("Muddy Waters", null, NodeType.of("ARTIST"));
-        elvis = new Node("Elvis Presley", null, NodeType.of("ARTIST"));
+        gospel = new Node(UUID.randomUUID(), "Gospel", null, NodeType.of("GENRE"));
+        blues = new Node(UUID.randomUUID(), "Urban Blues", null, NodeType.of("GENRE"));
+        muddy = new Node(UUID.randomUUID(), "Muddy Waters", null, NodeType.of("ARTIST"));
+        elvis = new Node(UUID.randomUUID(), "Elvis Presley", null, NodeType.of("ARTIST"));
 
         graph.addNode(gospel);
         graph.addNode(blues);
