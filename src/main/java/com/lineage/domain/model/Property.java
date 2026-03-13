@@ -31,11 +31,13 @@ public final class Property {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Property)) return false;
+        if (this == o)
+            return true;
+        if (!(o instanceof Property))
+            return false;
         Property property = (Property) o;
         return name.equals(property.name) &&
-               value.equals(property.value);
+                value.equals(property.value);
     }
 
     @Override
@@ -43,11 +45,9 @@ public final class Property {
         return Objects.hash(name, value);
     }
 
+
     @Override
     public String toString() {
-        return "Property{" +
-                "name='" + name + '\'' +
-                ", value=" + value +
-                '}';
+        return this.value.toString();
     }
 }

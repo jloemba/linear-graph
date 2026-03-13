@@ -33,6 +33,6 @@ public final class StringValue implements PropertyValue {
 
     @Override
     public String toString() {
-        return "Property{value='" + value + '\'' + '}';
+        return value;
     }
 }

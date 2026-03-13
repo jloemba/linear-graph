@@ -20,8 +20,15 @@ public interface FindGraphByIdUseCase {
     record NodeView(
         UUID id,
         String label,
-        String type
+        String type,
+        List<PropertyView> properties
     ) {}
+
+    record PropertyView(
+        String name,
+        String value
+    ) {}
+
 
     record RelationshipView(
         UUID id,
